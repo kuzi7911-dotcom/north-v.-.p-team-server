@@ -18,7 +18,7 @@ app.use(express.json({ limit: '10mb' }));
 // ============================================================
 // XOR ŞİFRELEME (Key mekanizması için)
 // ============================================================
-const XOR_KEY = "NORTH_VIP_GIZLI_ANAHTAR_2026"; // ← Bunu değiştir
+const XOR_KEY = "NORTH V.I.P"; // ← Bunu değiştir
 
 function xorEncrypt(text) {
   if (!text) return "";
