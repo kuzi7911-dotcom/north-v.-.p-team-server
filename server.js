@@ -1,5 +1,5 @@
 // ============================================================
-// NYXORIS TEAM - Backend Sunucu
+// NORTH V.I.P SYSTEM - Backend Sunucu
 // Render.com üzerinde çalışır
 // ============================================================
 
@@ -12,14 +12,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'data.json');
 
-// Middleware
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
 // ============================================================
 // XOR ŞİFRELEME (Key mekanizması için)
 // ============================================================
-const XOR_KEY = "NYXORIS_SECRET_KEY_2026_CHANGE_ME";
+const XOR_KEY = "NORTH_VIP_GIZLI_ANAHTAR_2026"; // ← Bunu değiştir
 
 function xorEncrypt(text) {
   if (!text) return "";
@@ -49,7 +48,7 @@ function xorDecrypt(encoded) {
 }
 
 // ============================================================
-// VERİ DOSYASI YÖNETİMİ
+// VERİ DOSYASI
 // ============================================================
 function loadData() {
   try {
@@ -69,19 +68,18 @@ function saveData(data) {
 }
 
 // ============================================================
-// ADMIN KEY (Bunu değiştir!)
+// ADMIN KEY - SENİN BELİRLEDİĞİN
 // ============================================================
-const ADMIN_KEY = "NYXORIS BOSS 2026";
+const ADMIN_KEY = "NORTH V.I.P";
 
 // ============================================================
 // API ENDPOINT'LERİ
 // ============================================================
 
-// Ana endpoint - test için
 app.get('/', (req, res) => {
   res.json({ 
     status: "ok", 
-    name: "NYXORIS TEAM API",
+    name: "NORTH V.I.P SYSTEM API",
     version: "1.0.0"
   });
 });
@@ -100,7 +98,6 @@ app.get('/api/all', (req, res) => {
 // HİLE ENDPOINT'LERİ
 // ============================================================
 
-// Hile ekle
 app.post('/api/cheats', (req, res) => {
   const { id, name, desc, file, category, target, adminKey } = req.body;
   
@@ -124,7 +121,6 @@ app.post('/api/cheats', (req, res) => {
   res.json({ ok: true, id });
 });
 
-// Hile sil
 app.delete('/api/cheats/:id', (req, res) => {
   const adminKey = req.headers['x-admin-key'];
   if (adminKey !== ADMIN_KEY) {
@@ -142,7 +138,6 @@ app.delete('/api/cheats/:id', (req, res) => {
 // KEY ENDPOINT'LERİ
 // ============================================================
 
-// Key oluştur (şifreli sakla)
 app.post('/api/keys', (req, res) => {
   const { key, expiry, is_vip, adminKey } = req.body;
   
@@ -155,7 +150,6 @@ app.post('/api/keys', (req, res) => {
   }
   
   const data = loadData();
-  // Key'i şifreli sakla
   const encryptedKey = xorEncrypt(key);
   data.keys[encryptedKey] = {
     expiry,
@@ -167,7 +161,6 @@ app.post('/api/keys', (req, res) => {
   res.json({ ok: true, key });
 });
 
-// Key sil
 app.delete('/api/keys/:key', (req, res) => {
   const adminKey = req.headers['x-admin-key'];
   if (adminKey !== ADMIN_KEY) {
@@ -175,7 +168,6 @@ app.delete('/api/keys/:key', (req, res) => {
   }
   
   const data = loadData();
-  // Gelen key'i şifrele ve sil
   const encryptedKey = xorEncrypt(req.params.key);
   delete data.keys[encryptedKey];
   saveData(data);
@@ -199,7 +191,6 @@ app.post('/api/keys/verify', (req, res) => {
     return res.json({ valid: false, error: "Geçersiz key" });
   }
   
-  // Süre kontrolü
   if (keyInfo.expiry && new Date() > new Date(keyInfo.expiry)) {
     return res.json({ valid: false, error: "Key süresi dolmuş" });
   }
@@ -215,7 +206,6 @@ app.post('/api/keys/verify', (req, res) => {
 // REKLAM ENDPOINT'LERİ
 // ============================================================
 
-// Reklam ekle
 app.post('/api/ads', (req, res) => {
   const { id, title, desc, image, link, btnText, color, adminKey } = req.body;
   
@@ -241,7 +231,6 @@ app.post('/api/ads', (req, res) => {
   res.json({ ok: true, id });
 });
 
-// Reklam sil
 app.delete('/api/ads/:id', (req, res) => {
   const adminKey = req.headers['x-admin-key'];
   if (adminKey !== ADMIN_KEY) {
@@ -259,5 +248,5 @@ app.delete('/api/ads/:id', (req, res) => {
 // SUNUCUYU BAŞLAT
 // ============================================================
 app.listen(PORT, () => {
-  console.log(`✅ NYXORIS API çalışıyor: http://localhost:${PORT}`);
+  console.log(`✅ NORTH V.I.P API çalışıyor: http://localhost:${PORT}`);
 });
