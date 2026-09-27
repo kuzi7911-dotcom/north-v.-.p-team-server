@@ -1,7 +1,7 @@
 {
-  "name": "nyxoris-server",
+  "name": "northvip-server",
   "version": "1.0.0",
-  "description": "NYXORIS TEAM backend server",
+  "description": "NORTH V.I.P SYSTEM backend server",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
